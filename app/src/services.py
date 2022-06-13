@@ -29,23 +29,22 @@ def is_valid_port(port: int):
     :param port: (int)
     """
     if port < 0:
-        raise PortMustBeMoreThanZero(f"{port} is not positive value")
+        raise PortMustBeMoreThanZero(port)
 
 
 @parameter_validation
 def is_valid_type_data_request(request):
     """
     Validator raises exception if begin or end port are not integer
+    :param request: input request object
     """
+    begin = request.match_info['begin']
+    end = request.match_info['end']
     try:
-        begin = int(request.match_info['begin'])
-        end = int(request.match_info['end'])
+        begin = int(begin)
+        end = int(end)
     except:
-        raise IncorrectTypesForPorts(f"{request.match_info['begin']} or {request.match_info['end']} is not valid type")
+        raise IncorrectTypesForPorts(begin, end)
     else:
-        compare_port(begin, end)
-
-
-def compare_port(begin: int, end: int):
-    if begin > end:
-        raise BeginPortGreaterEnd(f"Start of search {begin} is greater than end of search {end}")
+        if begin > end:
+            raise BeginPortGreaterEnd(begin, end)

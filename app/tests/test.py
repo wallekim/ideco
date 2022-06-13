@@ -25,7 +25,7 @@ class MyAppTestCase(AioHTTPTestCase):
         async with self.client.request("GET", "/scan/localhost/asdf/safdgd"):
             self.assertRaises(IncorrectTypesForPorts)
 
-    async def test_validation_input_data(self):
+    async def test_validation_begin_greater_end(self):
         async with self.client.request("GET", "/scan/localhost/-100/10000"):
             self.assertRaises(PortMustBeMoreThanZero)
 

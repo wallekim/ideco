@@ -1,6 +1,6 @@
 from aiohttp import web
 from json import dumps
-from app.src.services import is_port_open, is_valid_port, is_valid_type_data_request, compare_port
+from app.src.services import is_port_open, is_valid_port, is_valid_type_data_request
 import logging
 from parameters_validation import validate_parameters
 
@@ -13,11 +13,11 @@ routes = web.RouteTableDef()
 def check_ports(ip, begin: is_valid_port(int), end: is_valid_port(int)):
     lst_to_request = []
     for port in range(begin, end + 1):
-        data = {}
         status = 'open' if is_port_open(ip, port) else 'close'
-        data['port'] = port
-        data['status'] = status
-        lst_to_request.append(data)
+        lst_to_request.append({
+        'port': port,
+        'status': status
+        })
         logging.info(f"host: {ip} port: {port} status: {status}")
 
     return web.Response(text=dumps(lst_to_request), status=200)

@@ -19,10 +19,10 @@ async def error_handler(request, handler):
     try:
         resp = await handler(request)
     except BeginPortGreaterEnd as error:
-        return web.json_response(get_error_body(error))
+        return web.json_response(get_error_body(error), status=500)
     except PortMustBeMoreThanZero as error:
-        return web.json_response(get_error_body(error))
+        return web.json_response(get_error_body(error), status=500)
     except IncorrectTypesForPorts as error:
-        return web.json_response(get_error_body(error))
+        return web.json_response(get_error_body(error), status=500)
 
     return resp
