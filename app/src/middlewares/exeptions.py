@@ -1,6 +1,5 @@
 class MiddlewaresError(Exception):
-    def __init__(self, message):
-        self.message = message
+    pass
 
 
 class IncorrectTypesForPorts(MiddlewaresError):
@@ -9,7 +8,6 @@ class IncorrectTypesForPorts(MiddlewaresError):
         self.begin = begin
         self.end = end
         self.message = message
-        super().__init__(self.message)
 
 
 class PortMustBeMoreThanZero(IncorrectTypesForPorts):
@@ -18,7 +16,6 @@ class PortMustBeMoreThanZero(IncorrectTypesForPorts):
     def __init__(self, port, message='Port value is less than zero'):
         self.port = port
         self.message = message
-        super().__init__(self.message)
 
 
 class BeginPortGreaterEnd(IncorrectTypesForPorts):
@@ -28,4 +25,3 @@ class BeginPortGreaterEnd(IncorrectTypesForPorts):
         self.begin = begin
         self.end = end
         self.message = message
-        super().__init__(self.message)
