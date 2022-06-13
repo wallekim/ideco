@@ -1,7 +1,7 @@
 from aiohttp.test_utils import AioHTTPTestCase
 from aiohttp import web
 from app.src.scanner_api import get_port_status
-from app.src.middlewares.exeptions import BeginPortGreaterEnd, IncorrectTypesForPorts, PortMustBeMoreThanZero
+from app.src.middlewares.exeptions import IncorrectTypesForPorts, PortMustBeMoreThanZero
 
 
 class MyAppTestCase(AioHTTPTestCase):
@@ -16,10 +16,6 @@ class MyAppTestCase(AioHTTPTestCase):
             self.assertEqual(resp.status, 200)
             text = await resp.text()
         self.assertIn('[{"port": 1, "status": "close"}, {"port": 2, "status": "close"}]', text)
-
-    async def test_validation_begin_end(self):
-        async with self.client.request("GET", "/scan/localhost/100/3"):
-            self.assertRaises(BeginPortGreaterEnd)
 
     async def test_validation_input_data(self):
         async with self.client.request("GET", "/scan/localhost/asdf/safdgd"):

@@ -12,6 +12,8 @@ routes = web.RouteTableDef()
 @validate_parameters
 def check_ports(ip, begin: is_valid_port(int), end: is_valid_port(int)):
     lst_to_request = []
+    if begin > end:
+        begin, end = end, begin
     for port in range(begin, end + 1):
         status = 'open' if is_port_open(ip, port) else 'close'
         lst_to_request.append({
@@ -19,6 +21,7 @@ def check_ports(ip, begin: is_valid_port(int), end: is_valid_port(int)):
         'status': status
         })
         logging.info(f"host: {ip} port: {port} status: {status}")
+    logging.info('scanning ports finished')
 
     return web.Response(text=dumps(lst_to_request), status=200)
 
@@ -29,7 +32,7 @@ async def get_port_status(request: is_valid_type_data_request(object)):
     """
     This handle returns status of ports
     :param request:
-    :return:
+    :return: function that checks ports
     """
 
     logging.info('scan request received')

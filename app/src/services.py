@@ -1,5 +1,5 @@
 from parameters_validation import parameter_validation
-from app.src.middlewares.exeptions import IncorrectTypesForPorts, PortMustBeMoreThanZero, BeginPortGreaterEnd
+from app.src.middlewares.exeptions import IncorrectTypesForPorts, PortMustBeMoreThanZero
 import socket
 
 
@@ -45,6 +45,3 @@ def is_valid_type_data_request(request):
         end = int(end)
     except:
         raise IncorrectTypesForPorts(begin, end)
-    else:
-        if begin > end:
-            raise BeginPortGreaterEnd(begin, end)
